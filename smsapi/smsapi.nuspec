@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<package >
+  <metadata>
+    <id>$id$</id>
+    <version>$version$</version>
+    <title>$title$</title>
+    <authors>$author$</authors>
+    <owners>$author$</owners>
+    <licenseUrl>https://github.com/lotosbin/smsapi</licenseUrl>
+    <projectUrl>https://github.com/lotosbin/smsapi</projectUrl>
+    <iconUrl>http://ICON_URL_HERE_OR_DELETE_THIS_LINE</iconUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>$description$</description>
+    <releaseNotes>短信api接口</releaseNotes>
+    <copyright>Copyright 2014</copyright>
+    <tags>短信 sms dotnet net api 云片</tags>
+  </metadata>
+</package>

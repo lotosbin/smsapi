@@ -5,8 +5,11 @@ using System.Linq;
 using System.Net;
 using System.Text;
 
-namespace Caidan.Infrastructures
+namespace smsapi.Providers
 {
+    /// <summary>
+    /// www.yunpian.com
+    /// </summary>
     public class YunpianSMSProvider
     {
         /**

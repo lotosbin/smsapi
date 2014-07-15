@@ -1,5 +1,7 @@
 using System.Collections.Generic;
 using System.Configuration;
+using System.Security.Cryptography;
+using System.Text;
 using Binbin.HttpHelper;
 
 namespace smsapi.Providers
@@ -32,6 +34,12 @@ namespace smsapi.Providers
             }
             return SendSms(username, password, mobile, content);
         }
+
+        public SendResult tplSendSms(long tpl_id, string tpl_value, string mobile)
+        {
+            throw new System.NotImplementedException();
+        }
+
         public SendResult SendSms(string username, string password, string mobile, string content)
         {
             const string url = "http://www.smsbao.com/sms";
@@ -39,7 +47,7 @@ namespace smsapi.Providers
             var get = request.HttpGet(url, new List<APIParameter>()
             {
                 new APIParameter("u",username),
-                new APIParameter("p",password),
+                new APIParameter("p",MD5Encoding(password)),
                 new APIParameter("m",mobile),
                 new APIParameter("c",content),
             });
@@ -56,6 +64,24 @@ namespace smsapi.Providers
                 Success = false,
                 Message = get,
             };
+        } /// <summary>
+        /// MD5 加密字符串
+        /// </summary>
+        /// <param name="rawPass">源字符串</param>
+        /// <returns>加密后字符串</returns>
+        private static string MD5Encoding(string rawPass)
+        {
+            // 创建MD5类的默认实例：MD5CryptoServiceProvider
+            MD5 md5 = MD5.Create();
+            byte[] bs = Encoding.UTF8.GetBytes(rawPass);
+            byte[] hs = md5.ComputeHash(bs);
+            StringBuilder sb = new StringBuilder();
+            foreach (byte b in hs)
+            {
+                // 以十六进制格式格式化
+                sb.Append(b.ToString("x2"));
+            }
+            return sb.ToString();
         }
     }
 }

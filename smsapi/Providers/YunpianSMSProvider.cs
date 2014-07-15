@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.IO;
 using System.Linq;
 using System.Net;
@@ -10,7 +11,7 @@ namespace smsapi.Providers
     /// <summary>
     /// www.yunpian.com
     /// </summary>
-    public class YunpianSMSProvider
+    public class YunpianSMSProvider : ISmsProvider
     {
         /**
         * 服务http地址
@@ -32,6 +33,33 @@ namespace smsapi.Providers
         * 模板接口短信接口的http地址
         */
         private static readonly string URI_TPL_SEND_SMS = BASE_URI + "/" + VERSION + "/sms/tpl_send.json";
+
+        public SendResult SendSms(string mobile, string content)
+        {
+            throw new NotImplementedException();
+        }
+
+        public SendResult tplSendSms(long tpl_id, string tpl_value, string mobile)
+        {
+            var apikey = ConfigurationManager.AppSettings["YunpianApiKey"];
+            if (string.IsNullOrEmpty(apikey))
+            {
+                throw new ConfigurationErrorsException("YunpianApiKey");
+            }
+            var s = tplSendSms(null, tpl_id, tpl_value, mobile);
+            if (string.IsNullOrEmpty(s))
+            {
+                return new SendResult()
+                {
+                    Success = true,
+                };
+            }
+            return new SendResult()
+            {
+                Success = false,
+                Message = s,
+            };
+        }
 
         /**
         * 取账户信息
@@ -65,7 +93,6 @@ namespace smsapi.Providers
             os.Write(bytes, 0, bytes.Length);
             os.Close();
             WebResponse resp = req.GetResponse();
-            if (resp == null) return null;
             var sr = new StreamReader(resp.GetResponseStream());
             return sr.ReadToEnd().Trim();
         }
@@ -91,7 +118,6 @@ namespace smsapi.Providers
             os.Write(bytes, 0, bytes.Length);
             os.Close();
             WebResponse resp = req.GetResponse();
-            if (resp == null) return null;
             var sr = new StreamReader(resp.GetResponseStream());
             return sr.ReadToEnd().Trim();
         }

@@ -122,12 +122,13 @@ namespace smsapi.Providers
             return sr.ReadToEnd().Trim();
         }
 
-        public static void tplSendSms(string appApikey, string notifyTelephone, int tplId, Dictionary<string, string> dictionary)
+        public static string tplSendSms(string appApikey, string notifyTelephone, int tplId, Dictionary<string, string> dictionary)
         {
             var strings = dictionary.Select(d => String.Format("#{0}#={1}", d.Key, d.Value))
                                     .ToArray();
             var format = String.Join("&", strings);
             var s = tplSendSms(appApikey, tplId, format, notifyTelephone);
+            return s;
         }
     }
 }
